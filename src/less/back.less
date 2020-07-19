@@ -1,0 +1,107 @@
+.container {
+    height: 100vh;
+    position: relative;
+}
+
+.top {
+    height: 4.2rem;
+    width: 100%;
+    padding: 0.2rem;
+    box-sizing: border-box;
+    background: #fff;
+}
+
+.swiper-container {
+    height: 100%;
+    width: 100%;
+}
+
+.swiper-container .swiper-pagination-bullet {
+    height: 0.15rem;
+    width: 0.15rem;
+}
+
+.swiper-container .swiper-slide {
+    height: 100%;
+    width: 100%;
+    border-radius: 0.15rem;
+    overflow: hidden;
+}
+
+.swiper-container img {
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+}
+
+.center {
+    width: 100%;
+    overflow: hidden;
+    background: #dedede;
+}
+
+.center .types {
+    margin-top: 0.2rem;
+    background: #fff;
+}
+
+.center .types .title {
+    height: 0.8rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.28rem;
+    font-weight: bold;
+    border-bottom: 1px solid #ccc;
+}
+
+.center .types .title text:nth-child(2) {
+    margin: 0 0.2rem;
+}
+
+.center .types .title text:nth-child(1), .center .types .title text:nth-child(3) {
+    height: 1px;
+    width: 0.8rem;
+    background: linear-gradient(90deg, rgba(153, 153, 153, 0), rgba(153, 153, 153, 1), rgba(153, 153, 153, 0));
+}
+
+.center .types .content {
+    padding: 0.2rem;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.center .types .content > div {
+    height: 4rem;
+    width: 3.2rem;
+    margin-top: 0.1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.center .types .content > div img {
+    display: inline-block;
+    height: 3.2rem;
+    width: 3.2rem;
+    border-radius: 0.1rem;
+}
+
+.center .types .content > div div {
+    width: 1.5rem;
+    height: 0.4rem;
+    margin-bottom: 0.1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 2.15rem;
+    background: linear-gradient(0deg, rgba(211, 166, 114, 1), rgba(163, 118, 71, 1));
+}
+
+.center .types .content > div div text {
+    font-size: 0.26rem;
+    color: #fff;
+}
