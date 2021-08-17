@@ -33,7 +33,7 @@ gulp.task('default', ['start'], function () {
   require('opn')('http://localhost:8000');
 });
 
-gulp.task('build', ['js', 'images', 'less', 'html', 'utils']);
+gulp.task('build', ['js', 'images', 'less', 'html', 'utils', 'asset']);
 
 //创建一个名为js的任务
 gulp.task('js', function () {
@@ -56,6 +56,15 @@ gulp.task('utils', function () {
     //错误管理模块
     .pipe(plumber())
     .pipe(gulp.dest('dist/utils'));
+});
+
+//创建一个名为asset的任务
+gulp.task('asset', function () {
+  return gulp.src('src/asset/**/*')
+    .pipe(connect.reload()) //重新加载
+    //错误管理模块
+    .pipe(plumber())
+    .pipe(gulp.dest('dist/asset'));
 });
 
 //创建一个名为less的任务
