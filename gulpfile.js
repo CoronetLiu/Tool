@@ -13,27 +13,15 @@ const gulp = require('gulp'),
   minifyHtml = require('gulp-minify-html'),
   //压缩图片
   imagemin = require('gulp-imagemin'),
+  //文件重命名
+  rename = require('gulp-rename'),
   //错误处理提示插件
   plumber = require('gulp-plumber'),
 
-  connect = require('gulp-connect'),
-
-  //控制task中的串行和并行。（gulp默认是并行）
-  runSequence = require('gulp-run-sequence'),
   //用来删除文件
-  clean = require('gulp-clean');
+  clean = require('gulp-clean'),
 
-//创建一个名为default的任务（这个任务必须有，不然在终端执行gulp命令会报错）
-gulp.task('default', ['start'], function () {
-  connect.server({
-    root: 'dist',
-    port: 8000,
-    livereload: true,
-  });
-  require('opn')('http://localhost:8000');
-});
-
-gulp.task('build', ['js', 'images', 'less', 'html', 'utils', 'asset']);
+  connect = require('gulp-connect');
 
 //创建一个名为js的任务
 gulp.task('js', function () {
@@ -78,7 +66,10 @@ gulp.task('less', function () {
     .pipe(less())
     .pipe(autoprefixer())
     .pipe(minifyCss())
-    .pipe(gulp.dest('src/css'))
+    .pipe(rename((path) => {
+      path.extname = '.css'
+      return path
+    }))
     .pipe(gulp.dest('dist/css'));
 });
 
@@ -105,20 +96,34 @@ gulp.task('images', function () {
 //创建一个名为clean的任务
 gulp.task('clean', function () {
   return gulp.src('dist/*', {read: false})
-    .pipe(clean());
+    .pipe(clean())
 });
 
+gulp.task('build', gulp.parallel('js', 'images', 'less', 'html', 'utils', 'asset'));
+
 //创建一个名为watch的任务
-gulp.task('watch', ['build'], function () {
+gulp.task('watch', function (done) {
   //监听各个目录的文件，如果有变动则执行相应的任务操作文件
-  gulp.watch('src/js/**/*.js', ['js']);
-  gulp.watch('src/less/**/*.less', ['less']);
-  gulp.watch('src/pages/**/*.html', ['html']);
+  gulp.watch('src/js/**/*.js', gulp.series('build'));
+  gulp.watch('src/less/**/*.less', gulp.series('build'));
+  gulp.watch('src/pages/**/*.html', gulp.series('build'));
+  done()
 });
 
 //创建一个名为start的任务
-gulp.task('start', function () {
+gulp.task('start', function (done) {
   //先运行clean，然后并行运行html,js,less,images,打包完毕后再监听watch
-  runSequence(['clean'], ['html', 'less', 'js', 'images', 'utils'], ['watch']);
+  gulp.parallel('html', 'less', 'js', 'images', 'utils');
+  done()
 });
 
+//创建一个名为default的任务（这个任务必须有，不然在终端执行gulp命令会报错）
+gulp.task('default', gulp.series('clean', 'start', 'build', 'watch', function (done) {
+  connect.server({
+    root: 'dist',
+    port: 8000,
+    livereload: true,
+  });
+  require('opn')('http://localhost:8000');
+  done()
+}));
