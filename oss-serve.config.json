@@ -1,1 +1,8 @@
-{}
+{
+  "accessKeyId": "",
+  "accessKeySecret": "",
+  "pushRoot": "dist/asset",
+  "destination": "asset",
+  "bucket": "coronet",
+  "region": "oss-cn-beijing"
+}
